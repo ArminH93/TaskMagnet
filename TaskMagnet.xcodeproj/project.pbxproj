@@ -8,11 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		C603826E2B0BB04F005A5E40 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C603826D2B0BB04F005A5E40 /* Utilities.swift */; };
+		C604FAFB2B1B58C9002BDE3B /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C604FAFA2B1B58C9002BDE3B /* DataService.swift */; };
 		C6177C642B0A9E1B00F803D4 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C6177C632B0A9E1B00F803D4 /* GoogleSignIn */; };
 		C6177C662B0A9E1B00F803D4 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C6177C652B0A9E1B00F803D4 /* GoogleSignInSwift */; };
 		C6177C692B0A9F2E00F803D4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6177C682B0A9F2E00F803D4 /* GoogleService-Info.plist */; };
 		C6E1C8932B1353FD00BA120D /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = C6E1C8922B1353FD00BA120D /* GoogleSignIn */; };
 		C6E1C8952B1353FD00BA120D /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C6E1C8942B1353FD00BA120D /* GoogleSignInSwift */; };
+		C6ED92182B1CB77F00D1E91A /* TodayTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6ED92172B1CB77F00D1E91A /* TodayTaskView.swift */; };
+		C6ED921A2B1CB80800D1E91A /* UpcomingTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6ED92192B1CB80800D1E91A /* UpcomingTaskView.swift */; };
+		C6ED921C2B1CB85000D1E91A /* CompletedTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6ED921B2B1CB85000D1E91A /* CompletedTaskView.swift */; };
 		C6F3C93B2AF7C19D00FC3F71 /* TaskMagnetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3C93A2AF7C19D00FC3F71 /* TaskMagnetApp.swift */; };
 		C6F3C93D2AF7C19D00FC3F71 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3C93C2AF7C19D00FC3F71 /* ContentView.swift */; };
 		C6F3C93F2AF7C19F00FC3F71 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6F3C93E2AF7C19F00FC3F71 /* Assets.xcassets */; };
@@ -49,13 +53,16 @@
 		C6F3C9872AF7D6D800FC3F71 /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3C9862AF7D6D800FC3F71 /* AuthenticationManager.swift */; };
 		C6F3C9892AF7E23E00FC3F71 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3C9882AF7E23E00FC3F71 /* RootView.swift */; };
 		C6F3C98B2AF7E8A800FC3F71 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F3C98A2AF7E8A800FC3F71 /* SettingsView.swift */; };
-		C6FC468F2B163C9B0082F104 /* TaskLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FC468E2B163C9B0082F104 /* TaskLogic.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C603826D2B0BB04F005A5E40 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		C604FAFA2B1B58C9002BDE3B /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		C6177C672B0A9EC700F803D4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C6177C682B0A9F2E00F803D4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C6ED92172B1CB77F00D1E91A /* TodayTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayTaskView.swift; sourceTree = "<group>"; };
+		C6ED92192B1CB80800D1E91A /* UpcomingTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpcomingTaskView.swift; sourceTree = "<group>"; };
+		C6ED921B2B1CB85000D1E91A /* CompletedTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedTaskView.swift; sourceTree = "<group>"; };
 		C6F3C9372AF7C19D00FC3F71 /* TaskMagnet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskMagnet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6F3C93A2AF7C19D00FC3F71 /* TaskMagnetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskMagnetApp.swift; sourceTree = "<group>"; };
 		C6F3C93C2AF7C19D00FC3F71 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -66,7 +73,6 @@
 		C6F3C9862AF7D6D800FC3F71 /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		C6F3C9882AF7E23E00FC3F71 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		C6F3C98A2AF7E8A800FC3F71 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		C6FC468E2B163C9B0082F104 /* TaskLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskLogic.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				C603826D2B0BB04F005A5E40 /* Utilities.swift */,
+				C604FAFA2B1B58C9002BDE3B /* DataService.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -138,17 +145,19 @@
 		C6F3C9392AF7C19D00FC3F71 /* TaskMagnet */ = {
 			isa = PBXGroup;
 			children = (
-				C6177C672B0A9EC700F803D4 /* Info.plist */,
 				C6F3C93A2AF7C19D00FC3F71 /* TaskMagnetApp.swift */,
-				C6F3C93C2AF7C19D00FC3F71 /* ContentView.swift */,
+				C6ED92172B1CB77F00D1E91A /* TodayTaskView.swift */,
 				C6F3C98A2AF7E8A800FC3F71 /* SettingsView.swift */,
+				C6F3C93C2AF7C19D00FC3F71 /* ContentView.swift */,
 				C6F3C9882AF7E23E00FC3F71 /* RootView.swift */,
-				C6FC468E2B163C9B0082F104 /* TaskLogic.swift */,
 				C603826C2B0BB02B005A5E40 /* Utilities */,
 				C6F3C9812AF7D30200FC3F71 /* Authentication */,
 				C6177C682B0A9F2E00F803D4 /* GoogleService-Info.plist */,
+				C6177C672B0A9EC700F803D4 /* Info.plist */,
 				C6F3C93E2AF7C19F00FC3F71 /* Assets.xcassets */,
 				C6F3C9402AF7C19F00FC3F71 /* Preview Content */,
+				C6ED92192B1CB80800D1E91A /* UpcomingTaskView.swift */,
+				C6ED921B2B1CB85000D1E91A /* CompletedTaskView.swift */,
 			);
 			path = TaskMagnet;
 			sourceTree = "<group>";
@@ -279,13 +288,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C604FAFB2B1B58C9002BDE3B /* DataService.swift in Sources */,
 				C6F3C93D2AF7C19D00FC3F71 /* ContentView.swift in Sources */,
+				C6ED921A2B1CB80800D1E91A /* UpcomingTaskView.swift in Sources */,
 				C6F3C93B2AF7C19D00FC3F71 /* TaskMagnetApp.swift in Sources */,
 				C6F3C9892AF7E23E00FC3F71 /* RootView.swift in Sources */,
 				C6F3C9832AF7D32700FC3F71 /* AuthView.swift in Sources */,
+				C6ED92182B1CB77F00D1E91A /* TodayTaskView.swift in Sources */,
 				C6F3C9872AF7D6D800FC3F71 /* AuthenticationManager.swift in Sources */,
 				C6F3C9852AF7D49200FC3F71 /* SignInEmailView.swift in Sources */,
-				C6FC468F2B163C9B0082F104 /* TaskLogic.swift in Sources */,
+				C6ED921C2B1CB85000D1E91A /* CompletedTaskView.swift in Sources */,
 				C603826E2B0BB04F005A5E40 /* Utilities.swift in Sources */,
 				C6F3C98B2AF7E8A800FC3F71 /* SettingsView.swift in Sources */,
 			);

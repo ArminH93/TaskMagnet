@@ -14,6 +14,7 @@ final class SettingsViewmodel: ObservableObject {
 	func signOut() throws {
 		try AuthenticationManager.shared.signOut()
 	}
+	
 }
 
 struct SettingsView: View {
@@ -25,22 +26,27 @@ struct SettingsView: View {
 	var body: some View {
 		NavigationView {
 			VStack {
-				Spacer()
 				
-				Button("Log Out", systemImage: "rectangle.portrait.and.arrow.right") {
-					showingSignOutAlert = true
-				}
-				.alert("Are you sure you want to log out?", isPresented: $showingSignOutAlert) {
-					Button("Log Out", role: .destructive) {
-						signOut()
+			}
+			.navigationTitle("Settings")
+			.toolbar {
+				ToolbarItem(placement: .navigationBarTrailing) {
+					Button(action: {
+						showingSignOutAlert = true
+					}) {
+						Image(systemName: "rectangle.portrait.and.arrow.forward")
+							.foregroundColor(.pink)
 					}
-					Button("Cancel", role: .cancel) { }
+					.alert("Are you sure you want to log off", isPresented: $showingSignOutAlert) {
+						Button("Yes, log me off", role: .destructive) {
+							signOut()
+						}
+						Button("Cancel", role: .cancel) {}
+					}
 				}
-				Spacer().frame(height: 20)
 			}
 		}
-		.padding()
-		.navigationTitle("Settings")
+		
 	}
 	
 	private func signOut() {
