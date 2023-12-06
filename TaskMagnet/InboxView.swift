@@ -9,7 +9,7 @@ import Firebase
 import FirebaseFirestore
 import Foundation
 
-struct TodayTaskView: View {
+struct InboxView: View {
 	@ObservedObject var viewModel: ContentViewModel
 	@State private var showingDeleteConfirmation = false
 	@State private var showingAddTaskView = false
@@ -21,42 +21,23 @@ struct TodayTaskView: View {
 		return formatter
 	}()
 	
-	private var todaysTasks: [Task] {
-		let today = Calendar.current.startOfDay(for: Date())
-		return viewModel.tasks.filter { task in
-			guard let dueDate = task.dueDate else { return false }
-			return dueDate <= today && !task.isComplete
-		}
-	}
+	let formattedDate = Self.taskDateFormat.string(from: Date())
 	
 	var body: some View {
-		let formattedDate = Self.taskDateFormat.string(from: Date())
-		let today = Calendar.current.startOfDay(for: Date())
 		
 		NavigationView {
 			List {
-				ForEach(todaysTasks, id: \.firestoreID) { task in
-					HStack {
-						Button(action: {
-							viewModel.markTaskAsComplete(for: task)
-						}) {
-							Image(systemName: task.isComplete ? "checkmark.circle.fill" : "circle")
-								.foregroundColor(task.isComplete ? .green : .gray)
+				ForEach(["Today", "Tomorrow", "Upcoming"], id: \.self) { category in
+					Section(header: Text(category)) {
+						ForEach(viewModel.categorizedTasks[category] ?? [], id: \.firestoreID) { task in
+							TaskRow(task: task, markAsComplete: {
+								viewModel.markTaskAsComplete(for: task)
+							})
 						}
-						.buttonStyle(PlainButtonStyle())
-						
-						Text(task.title)
-							.strikethrough(task.isComplete, color: .gray)
-							.foregroundColor(isOverdue(task: task, today: today) ? .red : .primary)
-						Spacer()
 					}
 				}
-				.onDelete { offsets in
-					viewModel.deleteSelectedTasks(at: offsets)
-				}
-				
 			}
-			.navigationTitle("Today, \(formattedDate)")
+			.navigationTitle("Inbox")
 			.toolbar {
 				ToolbarItem(placement: .navigationBarTrailing) {
 					Button(action: {
@@ -79,11 +60,6 @@ struct TodayTaskView: View {
 				viewModel.detachListener()
 			}
 		}
-	}
-	
-	private func isOverdue(task: Task, today: Date) -> Bool {
-		guard let dueDate = task.dueDate, !task.isComplete else { return false }
-		return dueDate < today
 	}
 }
 
@@ -113,6 +89,6 @@ struct AddTaskView: View {
 
 struct TodayTaskView_Previews: PreviewProvider {
 	static var previews: some View {
-		TodayTaskView(viewModel: .mock)
+		InboxView(viewModel: .mock)
 	}
 }

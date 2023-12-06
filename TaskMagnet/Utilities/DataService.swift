@@ -82,3 +82,12 @@ class DataService {
 		completion()
 	}
 }
+
+class DateFormatting {
+	static let taskDateFormat: DateFormatter = {
+		let formatter = DateFormatter()
+		formatter.dateStyle = .medium
+		formatter.timeStyle = .none
+		return formatter
+	}()
+}

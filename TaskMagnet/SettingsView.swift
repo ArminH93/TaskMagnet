@@ -14,7 +14,6 @@ final class SettingsViewmodel: ObservableObject {
 	func signOut() throws {
 		try AuthenticationManager.shared.signOut()
 	}
-	
 }
 
 struct SettingsView: View {
@@ -46,7 +45,6 @@ struct SettingsView: View {
 				}
 			}
 		}
-		
 	}
 	
 	private func signOut() {

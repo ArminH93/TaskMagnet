@@ -28,12 +28,30 @@ struct Task: Codable, Identifiable {
 @MainActor
 final class ContentViewModel: ObservableObject {
 	@Published var tasks: [Task] = []
-	@Published var archiveSearchQuery = ""
-	private var listener: ListenerRegistration?
+	@Published var completedSearchQuery = ""
+	
+	var categorizedTasks: [String: [Task]] {
+		var categories: [String: [Task]] = ["Today": [], "Tomorrow": [], "Upcoming": []]
+		let today = Calendar.current.startOfDay(for: Date())
+		
+		for task in tasks where !task.isComplete {
+			guard let dueDate = task.dueDate else { continue }
+			if Calendar.current.isDateInToday(dueDate) {
+				categories["Today"]?.append(task)
+			} else if Calendar.current.isDateInTomorrow(dueDate) {
+				categories["Tomorrow"]?.append(task)
+			} else if dueDate > today {
+				categories["Upcoming"]?.append(task)
+			}
+		}
+		return categories
+	}
 	
 	func logout() throws {
 		try AuthenticationManager.shared.signOut()
 	}
+	
+	private var listener: ListenerRegistration?
 	
 	func attachListener(for userID: String) {
 		DataService.shared.fetchTasks(for: userID) { [weak self] (tasks, error) in
@@ -50,25 +68,6 @@ final class ContentViewModel: ObservableObject {
 		listener = nil
 	}
 	
-	private func countOfTasksDueToday() -> Int {
-		let today = Calendar.current.startOfDay(for: Date())
-		return tasks.filter { task in
-			guard let dueDate = task.dueDate, !task.isComplete else { return false }
-			return Calendar.current.isDate(dueDate, inSameDayAs: today)
-		}.count
-	}
-	
-	func updateAppBadge() {
-		DispatchQueue.main.async {
-			let today = Calendar.current.startOfDay(for: Date())
-			let count = self.tasks.filter { task in
-				guard let dueDate = task.dueDate else { return false }
-				return Calendar.current.isDate(dueDate, inSameDayAs: today)
-			}.count
-			UIApplication.shared.applicationIconBadgeNumber = count
-		}
-	}
-	
 	// Method to handle the deletion process
 	func deleteSelectedTasks(at offsets: IndexSet) {
 		guard let userID = Auth.auth().currentUser?.uid else { return }
@@ -77,7 +76,6 @@ final class ContentViewModel: ObservableObject {
 			if error == nil {
 				DispatchQueue.main.async {
 					self.tasks.remove(atOffsets: offsets)
-					self.updateAppBadge() // Update after task removal
 				}
 			} else {
 				// Handle error
@@ -89,7 +87,6 @@ final class ContentViewModel: ObservableObject {
 		guard let userID = Auth.auth().currentUser?.uid else { return }
 		let newTask = Task(title: title, isComplete: false, dueDate: dueDate)
 		DataService.shared.addTask(newTask, for: userID) {
-			self.updateAppBadge() // Update after adding the task
 		}
 	}
 	
@@ -98,7 +95,6 @@ final class ContentViewModel: ObservableObject {
 			if let index = self.tasks.firstIndex(where: { $0.firestoreID == task.firestoreID }) {
 				DispatchQueue.main.async {
 					self.tasks[index].isComplete = true
-					self.updateAppBadge() // Update after marking task as complete
 				}
 			}
 		}
@@ -113,30 +109,24 @@ struct ContentView: View {
 	var body: some View {
 		TabView(selection: $selectedTab) {
 			NavigationStack {
-				TodayTaskView(viewModel: viewModel)
+				InboxView(viewModel: viewModel)
 			}.tabItem {
-				Label("Today", systemImage: "list.bullet")
+				Label("Inbox", systemImage: "archivebox")
 			}.tag(1)
 			
 			NavigationStack {
-				UpcomingTaskView(viewModel: viewModel)
-			}.tabItem {
-				Label("Upcoming", systemImage: "calendar")
-			}.tag(2)
-			
-			NavigationStack {
-				CompletedTaskView(viewModel: viewModel, searchQuery: $viewModel.archiveSearchQuery, isCurrentlySelected: Binding(get: {
-					self.selectedTab == 3
+				CompletedTaskView(viewModel: viewModel, searchQuery: $viewModel.completedSearchQuery, isCurrentlySelected: Binding(get: {
+					self.selectedTab == 2
 				}, set: { _ in }))
 			}.tabItem {
 				Label("Completed", systemImage: "checklist.checked")
-			}.tag(3)
+			}.tag(2)
 			
 			NavigationStack {
 				SettingsView(showSignInView: $showSignInView)
 			}.tabItem {
 				Label("Settings", systemImage: "gearshape")
-			}.tag(4)
+			}.tag(3)
 		}
 	}
 }

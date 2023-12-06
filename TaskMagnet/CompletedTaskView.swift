@@ -48,9 +48,7 @@ struct CompletedTaskView: View {
 	}
 }
 
-
-// Preview Code for Xcode
-
+// Preview Code for Xcode IDE
 extension ContentViewModel {
 	static var mock: ContentViewModel {
 		let mockViewModel = ContentViewModel()
