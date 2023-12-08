@@ -24,7 +24,6 @@ struct CompletedTaskView: View {
 		NavigationView {
 			if searchQuery.isEmpty {
 				VStack {
-					
 					Image(systemName: "checklist.checked")
 						.resizable()
 						.scaledToFit()

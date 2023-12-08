@@ -16,9 +16,11 @@ class DataService {
 	private init() {}
 	
 	func fetchTasks(for userID: String, completion: @escaping ([Task]?, Error?) -> Void) {
+		print("Fetching tasks for user ID: \(userID)")
 		db.collection("users").document(userID).collection("tasks")
 			.addSnapshotListener { querySnapshot, error in
 				if let error = error {
+					print("Error fetching tasks: \(error)")
 					completion(nil, error)
 				} else {
 					let tasks = querySnapshot?.documents.compactMap { document in
@@ -26,6 +28,7 @@ class DataService {
 						task?.firestoreID = document.documentID
 						return task
 					}
+					print("Successfully fetched \(tasks?.count ?? 0) tasks")
 					completion(tasks, nil)
 				}
 			}
@@ -55,6 +58,7 @@ class DataService {
 			let task = tasks[index]
 			if let firestoreID = task.firestoreID {
 				deleteTask(with: firestoreID, for: userID) { error in
+					print("Task deleted with ID: \(firestoreID)")
 					completion(error)
 				}
 			}

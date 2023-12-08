@@ -10,7 +10,7 @@ import Firebase
 import FirebaseFirestore
 import _Concurrency
 
-struct Task: Codable, Identifiable {
+struct Task: Codable, Identifiable, Equatable {
 	let id: UUID?
 	var firestoreID: String?
 	var title: String
@@ -29,6 +29,25 @@ struct Task: Codable, Identifiable {
 final class ContentViewModel: ObservableObject {
 	@Published var tasks: [Task] = []
 	@Published var completedSearchQuery = ""
+	
+	private let dataService = DataService.shared
+	private var userID: String? {
+		Auth.auth().currentUser?.uid
+	}
+	
+	func refreshTasks() {
+		guard let userID = userID else { return }
+		
+		dataService.fetchTasks(for: userID) { [weak self] newTasks, error in
+			DispatchQueue.main.async {
+				if let newTasks = newTasks {
+					self?.tasks = newTasks
+				} else if let error = error {
+					print("Error fetching tasks: \(error)")
+				}
+			}
+		}
+	}
 	
 	var categorizedTasks: [String: [Task]] {
 		var categories: [String: [Task]] = ["Today": [], "Tomorrow": [], "Upcoming": []]
@@ -66,6 +85,26 @@ final class ContentViewModel: ObservableObject {
 	func detachListener() {
 		listener?.remove()
 		listener = nil
+	}
+	
+	func deleteTasks(at offsets: IndexSet, from category: String) {
+		guard let userID = Auth.auth().currentUser?.uid else { return }
+		
+		for index in offsets {
+			if let taskToDelete = categorizedTasks[category]?[index],
+			   let firestoreID = taskToDelete.firestoreID {
+				
+				// Remove task from Firestore
+				DataService.shared.deleteTask(with: firestoreID, for: userID) { error in
+					// Handle errors if necessary
+				}
+				
+				// Remove task from local tasks array
+				if let globalIndex = tasks.firstIndex(where: { $0.firestoreID == firestoreID }) {
+					tasks.remove(at: globalIndex)
+				}
+			}
+		}
 	}
 	
 	// Method to handle the deletion process

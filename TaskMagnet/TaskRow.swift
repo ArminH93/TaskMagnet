@@ -9,6 +9,9 @@ import SwiftUI
 struct TaskRow: View {
 	var task: Task
 	var markAsComplete: () -> Void
+	var deleteTask: () -> Void
+	
+	@State private var showingDeleteAlert = false
 	
 	private var formattedDueDate: String? {
 		guard let dueDate = task.dueDate else { return nil }
@@ -17,12 +20,14 @@ struct TaskRow: View {
 	
 	var body: some View {
 		HStack {
+			// Button for marking task as complete
 			Button(action: markAsComplete) {
 				Image(systemName: task.isComplete ? "checkmark.circle.fill" : "circle")
 					.foregroundColor(task.isComplete ? .green : .gray)
 			}
 			.buttonStyle(PlainButtonStyle())
 			
+			// Task details
 			VStack(alignment: .leading) {
 				Text(task.title)
 					.strikethrough(task.isComplete, color: .gray)
@@ -33,13 +38,15 @@ struct TaskRow: View {
 						.foregroundColor(.gray)
 				}
 			}
+
 		}
 	}
 }
 
+
 struct TaskRow_Previews: PreviewProvider {
 	static var previews: some View {
-		TaskRow(task: Task.mock, markAsComplete: {})
+		TaskRow(task: Task.mock, markAsComplete: {}, deleteTask: {})
 			.previewLayout(.sizeThatFits)
 	}
 }
